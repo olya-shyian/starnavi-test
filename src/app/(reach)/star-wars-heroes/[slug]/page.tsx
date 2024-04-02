@@ -22,7 +22,7 @@ const HeroeGraph = ({ params }: { params: { slug: string } }) => {
       try {
         // First API request to get films related to the hero
         const filmsFromServer = await axios.get(
-          `https://sw-api.starnavi.io//films/?characters__in=${params.slug}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/films/?characters__in=${params.slug}`
         );
 
         // Formatting the film data with title and id
@@ -35,7 +35,7 @@ const HeroeGraph = ({ params }: { params: { slug: string } }) => {
 
         // Second API request to get starships related to the films
         const starshipsFromServer = await axios.get(
-          `https://sw-api.starnavi.io//starships/?films__in=${ids}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/starships/?films__in=${ids}`
         );
 
         let allStarships = starshipsFromServer.data.results;

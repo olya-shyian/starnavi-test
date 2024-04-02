@@ -6,7 +6,6 @@ import { usePagination } from "@ajna/pagination";
 import HeroesList from "./components/heroesList/HeroesList";
 import PaginationComponent from "./components/pagination/PaginationComponent";
 import axios from "axios";
-import styles from "./page.module.css";
 import { IHeroe } from "./interfaces/IHeroe";
 import useErrorHandler from "./hooks/useErrorHandler";
 import { ErrorsEnum } from "./enums/ErrorsEnum";
@@ -48,7 +47,7 @@ const App = () => {
     const getHeroes = async (page: number) => {
       try {
         const response = await axios.get(
-          `https://sw-api.starnavi.io/people?page=${page}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/people?page=${page}`
         );
 
         const { results, count } = response.data;
@@ -71,7 +70,7 @@ const App = () => {
   }, [currentPage, setError]);
 
   return (
-    <main className={styles.main}>
+    <main>
       {renderError()}
 
       {!!heroes.length && (

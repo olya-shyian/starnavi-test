@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeroesList component renders a list of heroes 1`] = `
+<DocumentFragment>
+  <div
+    class="css-1m5dnc2"
+  >
+    <a
+      href="/star-wars-heroes/1?name=Luke Skywalker"
+    >
+      <div
+        class="css-14ch23z"
+      >
+        <p
+          class="chakra-text css-0"
+          data-testid="hero-name"
+        >
+          Luke Skywalker
+        </p>
+      </div>
+    </a>
+    <hr
+      aria-orientation="horizontal"
+      class="chakra-divider css-1upb9tn"
+    />
+    <a
+      href="/star-wars-heroes/1?name=Luke Skywalker"
+    >
+      <div
+        class="css-14ch23z"
+      >
+        <p
+          class="chakra-text css-0"
+          data-testid="hero-name"
+        >
+          Leia Organa
+        </p>
+      </div>
+    </a>
+  </div>
+</DocumentFragment>
+`;

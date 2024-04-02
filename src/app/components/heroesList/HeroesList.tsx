@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { Box, Flex, Text, Divider } from "@chakra-ui/react";
 import { IHeroe } from "@/app/interfaces/IHeroe";
 import Link from "next/link";
@@ -30,7 +30,7 @@ const HeroesList = ({ people }: HeroesListProps) => {
                 justify="center"
                 _hover={{ fontWeight: "semibold" }}
               >
-                <Text>{name}</Text>
+                <Text data-testid="hero-name">{name}</Text>
               </Flex>
             </Link>
           </React.Fragment>
