@@ -1,95 +1,99 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
+import React, { useEffect, useState } from "react";
+import { Center, Container, Heading } from "@chakra-ui/react";
+import { usePagination } from "@ajna/pagination";
+import HeroesList from "./components/heroesList/HeroesList";
+import PaginationComponent from "./components/pagination/PaginationComponent";
+import axios from "axios";
+import styles from "./page.module.css";
+import { IHeroe } from "./interfaces/IHeroe";
+import useErrorHandler from "./hooks/useErrorHandler";
+import { ErrorsEnum } from "./enums/ErrorsEnum";
+import {
+  CURRENT_PAGE,
+  INITIAL_TOTAL_ITEMS,
+  INNER_LIMIT,
+  ITEMS_PER_PAGE,
+  OUTER_LIMIT,
+} from "./components/pagination/consts";
+
+interface PaginationDataState {
+  totalItems: number;
+  itemsPerPage: number;
+}
+
+const App = () => {
+  const [heroes, setHeroes] = useState<IHeroe[]>([]);
+  const { setError, renderError } = useErrorHandler();
+
+  const [paginationData, setPaginationData] = useState<PaginationDataState>({
+    totalItems: INITIAL_TOTAL_ITEMS,
+    itemsPerPage: ITEMS_PER_PAGE,
+  });
+
+  const { currentPage, setCurrentPage, pagesCount, pages } = usePagination({
+    total: paginationData.totalItems,
+    initialState: {
+      currentPage: CURRENT_PAGE,
+      pageSize: paginationData.itemsPerPage,
+    },
+    limits: {
+      outer: OUTER_LIMIT,
+      inner: INNER_LIMIT,
+    },
+  });
+
+  useEffect(() => {
+    const getHeroes = async (page: number) => {
+      try {
+        const response = await axios.get(
+          `https://sw-api.starnavi.io/people?page=${page}`
+        );
+
+        const { results, count } = response.data;
+
+        setHeroes(results);
+
+        setPaginationData({
+          totalItems: count,
+          itemsPerPage: results.length,
+        });
+      } catch (error) {
+        setError({
+          name: ErrorsEnum.LoadName,
+          message: ErrorsEnum.LoadMessage,
+        });
+      }
+    };
+
+    getHeroes(currentPage);
+  }, [currentPage, setError]);
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
+      {renderError()}
+
+      {!!heroes.length && (
+        <Container my={"10"}>
+          <Heading as="h2" size="4xl" textAlign="center">
+            Star Wars
+          </Heading>
+
+          <HeroesList people={heroes} />
+
+          <Center>
+            <PaginationComponent
+              pages={pages}
+              pagesCount={pagesCount}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
             />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+          </Center>
+        </Container>
+      )}
     </main>
   );
-}
+};
+
+export default App;
