@@ -23,7 +23,7 @@ const HeroesList = ({ people }: HeroesListProps) => {
         return (
           <React.Fragment key={name}>
             {index !== 0 && <Divider />}
-            <Link href={`/star-wars-heroes/${heroesId}?` + query}>
+            <Link href={`/star-wars-heroes/${heroesId}?` + query} replace>
               <Flex
                 p={2}
                 align="center"

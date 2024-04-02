@@ -1,11 +1,15 @@
 "use client";
 
+import axios from "axios";
 import FlowGraph from "@/app/components/flowGraph/FlowGraph";
 import { getIdFromUrl } from "@/app/utils/generalUtils";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { addStarshipsToFilms, getIdsAsString } from "./utils";
+import {
+  addStarshipsToFilms,
+  fetchStarshipsRecursively,
+  getIdsAsString,
+} from "./utils";
 import { FormattedFilms } from "@/app/interfaces/IFilms";
 import useErrorHandler from "@/app/hooks/useErrorHandler";
 import { ErrorsEnum } from "@/app/enums/ErrorsEnum";
@@ -33,21 +37,26 @@ const HeroeGraph = ({ params }: { params: { slug: string } }) => {
         // Get comma-separated ids of films
         const ids = getIdsAsString(formattedFilms);
 
-        // Second API request to get starships related to the films
-        const starshipsFromServer = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/starships/?films__in=${ids}`
+        const allStarships = await fetchStarshipsRecursively(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/starships/?films__in=${ids}`,
+          setError
         );
 
-        let allStarships = starshipsFromServer.data.results;
+        // Second API request to get starships related to the films
+        // const starshipsFromServer = await axios.get(
+        //   `${process.env.NEXT_PUBLIC_API_BASE_URL}/starships/?films__in=${ids}`
+        // );
 
-        // If there are more results, fetch additional pages
-        if (starshipsFromServer.data.next) {
-          const additionalStarships = await axios.get(
-            starshipsFromServer.data.next
-          );
+        // let allStarships = starshipsFromServer.data.results;
 
-          allStarships = [allStarships, ...additionalStarships.data.results];
-        }
+        // // If there are more results, fetch additional pages
+        // if (starshipsFromServer.data.next) {
+        //   const additionalStarships = await axios.get(
+        //     starshipsFromServer.data.next
+        //   );
+
+        //   allStarships = [allStarships, ...additionalStarships.data.results];
+        // }
 
         // Adding starship information to each film
         const heroeData = addStarshipsToFilms(allStarships, formattedFilms);
