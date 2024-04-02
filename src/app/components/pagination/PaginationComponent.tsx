@@ -40,6 +40,9 @@ const PaginationComponent = ({
             width={"7"}
             key={`pagination_page_${page}`}
             page={page}
+            _current={{
+              bg: "gray.400",
+            }}
           />
         ))}
       </PaginationPageGroup>
