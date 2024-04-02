@@ -42,22 +42,6 @@ const HeroeGraph = ({ params }: { params: { slug: string } }) => {
           setError
         );
 
-        // Second API request to get starships related to the films
-        // const starshipsFromServer = await axios.get(
-        //   `${process.env.NEXT_PUBLIC_API_BASE_URL}/starships/?films__in=${ids}`
-        // );
-
-        // let allStarships = starshipsFromServer.data.results;
-
-        // // If there are more results, fetch additional pages
-        // if (starshipsFromServer.data.next) {
-        //   const additionalStarships = await axios.get(
-        //     starshipsFromServer.data.next
-        //   );
-
-        //   allStarships = [allStarships, ...additionalStarships.data.results];
-        // }
-
         // Adding starship information to each film
         const heroeData = addStarshipsToFilms(allStarships, formattedFilms);
 
