@@ -44,6 +44,7 @@ const FlowGraph = ({ heroeName, heroeInfo }: FlowGraphProps) => {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         connectionLineType={ConnectionLineType.SmoothStep}
+        fitView
       >
         <Controls />
         <MiniMap />

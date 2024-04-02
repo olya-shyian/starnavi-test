@@ -2,6 +2,7 @@ import { FormattedFilms } from "@/app/interfaces/IFilms";
 import { Edge, Node, Position } from "reactflow";
 import dagre from "dagre";
 import { EDGE_TYPE, NODE_HEIGHT, NODE_WIDTH, POSITION } from "./consts";
+import { DirectionEnum } from "@/app/enums/DirectionEnum";
 
 // Function to generate nodes for the graph
 export const generateNodes = (
@@ -85,13 +86,13 @@ export const generateEdges = (
 export const getLayoutedElements = (
   nodes: Node[],
   edges: Edge[],
-  direction = "TB"
+  direction = DirectionEnum.TopToBottom
 ) => {
   // Create a new dagre graph in order to set the direction for the layout of nodes in the graph.
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-  const isHorizontal = direction === "LR";
+  const isHorizontal = direction === DirectionEnum.LeftToRight;
   dagreGraph.setGraph({ rankdir: direction });
 
   nodes.forEach((node) => {
