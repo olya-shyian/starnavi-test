@@ -18,12 +18,12 @@ const HeroesList = ({ people }: HeroesListProps) => {
         const { name, url } = data;
 
         const heroesId = getIdFromUrl(url);
-        const query = createQueryString(searchParams, "name", name);
+        const query = createQueryString(searchParams, "name", name, ["page"]);
 
         return (
           <React.Fragment key={name}>
             {index !== 0 && <Divider />}
-            <Link href={`/star-wars-heroes/${heroesId}?` + query}>
+            <Link href={`/star-wars-heroes/${heroesId}?${query}`}>
               <Flex
                 p={2}
                 align="center"

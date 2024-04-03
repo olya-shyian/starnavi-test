@@ -16,6 +16,7 @@ import {
   ITEMS_PER_PAGE,
   OUTER_LIMIT,
 } from "./components/pagination/consts";
+import { useSearchParams } from "next/navigation";
 
 interface PaginationDataState {
   totalItems: number;
@@ -26,6 +27,9 @@ const App = () => {
   const [heroes, setHeroes] = useState<IHeroe[]>([]);
   const { setError, renderError } = useErrorHandler();
 
+  const searchParams = useSearchParams()
+  const page = searchParams.get('page')
+
   const [paginationData, setPaginationData] = useState<PaginationDataState>({
     totalItems: INITIAL_TOTAL_ITEMS,
     itemsPerPage: ITEMS_PER_PAGE,
@@ -34,7 +38,7 @@ const App = () => {
   const { currentPage, setCurrentPage, pagesCount, pages } = usePagination({
     total: paginationData.totalItems,
     initialState: {
-      currentPage: CURRENT_PAGE,
+      currentPage: page ? +page : CURRENT_PAGE,
       pageSize: paginationData.itemsPerPage,
     },
     limits: {
@@ -44,10 +48,10 @@ const App = () => {
   });
 
   useEffect(() => {
-    const getHeroes = async (page: number) => {
+    const getHeroes = async (selectedPage: number) => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/people?page=${page}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/people?page=${selectedPage}`
         );
 
         const { results, count } = response.data;

@@ -34,11 +34,8 @@ describe("App Component", () => {
       count: HeroesMock.length,
     });
 
-    render(<App />);
-
-    // Wait for the API call to complete and the component to re-render
     await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 0));
+      render(<App />);
     });
 
     // Verify the snapshot

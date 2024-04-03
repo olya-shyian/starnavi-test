@@ -3,102 +3,27 @@
 exports[`App Component renders list of hero names on successful API call 1`] = `
 <main>
   <div
-    class="chakra-container css-1xo3mso"
+    class="css-h74a88"
   >
-    <h2
-      class="chakra-heading css-xi606m"
-    >
-      Star Wars
-    </h2>
     <div
-      class="css-1m5dnc2"
+      class="css-1oqh2xe"
     >
-      <div
-        class="css-14ch23z"
+      <h2
+        class="chakra-heading css-wlea3r"
       >
-        <p
-          class="chakra-text css-0"
-          data-testid="hero-name"
-        >
-          Luke Skywalker
-        </p>
-      </div>
-      <hr
-        aria-orientation="horizontal"
-        class="chakra-divider css-1upb9tn"
-      />
-      <div
-        class="css-14ch23z"
+        Oops! Something went wrong.
+      </h2>
+      <p
+        class="chakra-text css-x4lmqn"
       >
-        <p
-          class="chakra-text css-0"
-          data-testid="hero-name"
-        >
-          Leia Organa
-        </p>
-      </div>
-    </div>
-    <div
-      class="css-gmuwbf"
-    >
-      <nav
-        aria-label="pagination navigation"
-        class="pagination-container css-k008qs"
+        Unable to load todos
+      </p>
+      <button
+        class="chakra-button css-4xx2wk"
+        type="button"
       >
-        <button
-          aria-disabled="true"
-          aria-label="Previous page"
-          class="chakra-button pagination-previous css-1emije3"
-          disabled=""
-          type="button"
-        >
-          <svg
-            class="chakra-icon css-w31a5m"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-              fill="currentColor"
-            />
-          </svg>
-        </button>
-        <ol
-          class="chakra-stack pagination-page-group css-1x343b"
-        >
-          <li
-            class="css-k008qs"
-          >
-            <button
-              aria-current="true"
-              aria-disabled="false"
-              aria-label="Current page, page 1"
-              class="chakra-button pagination-page css-162muc7"
-              type="button"
-            >
-              1
-            </button>
-          </li>
-        </ol>
-        <button
-          aria-disabled="true"
-          aria-label="Next page"
-          class="chakra-button pagination-next css-4xx2wk"
-          disabled=""
-          type="button"
-        >
-          <svg
-            class="chakra-icon css-w31a5m"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
-              fill="currentColor"
-            />
-          </svg>
-        </button>
-      </nav>
+        Try Again
+      </button>
     </div>
   </div>
 </main>

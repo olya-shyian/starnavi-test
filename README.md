@@ -1,4 +1,8 @@
 This is a Next.js project: 'The Star Wars'.
+
+To get acquainted with the project, please follow the link:
+https://starnavi-test.vercel.app/
+
 ## Getting Started
 
 First, run the development server:

@@ -6,7 +6,7 @@ exports[`HeroesList component renders a list of heroes 1`] = `
     class="css-1m5dnc2"
   >
     <a
-      href="/star-wars-heroes/1?name=Luke Skywalker"
+      href="/star-wars-heroes/1?name=Luke+Skywalker"
     >
       <div
         class="css-14ch23z"
@@ -24,7 +24,7 @@ exports[`HeroesList component renders a list of heroes 1`] = `
       class="chakra-divider css-1upb9tn"
     />
     <a
-      href="/star-wars-heroes/1?name=Luke Skywalker"
+      href="/star-wars-heroes/2?name=Leia+Organa"
     >
       <div
         class="css-14ch23z"

@@ -1,3 +1,4 @@
+import { createQueryString } from "@/app/utils/generalUtils";
 import {
   Pagination,
   PaginationPage,
@@ -7,6 +8,9 @@ import {
   PaginationContainer,
 } from "@ajna/pagination";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { calculateTargetPageForDots } from "./utils";
 
 interface PaginationComponentProps {
   pages: number[];
@@ -20,38 +24,65 @@ const PaginationComponent = ({
   pagesCount,
   currentPage,
   setCurrentPage,
-}: PaginationComponentProps) => (
-  <Pagination
-    pagesCount={pagesCount}
-    currentPage={currentPage}
-    onPageChange={setCurrentPage}
-  >
-    <PaginationContainer>
-      <PaginationPrevious colorScheme="teal" mr={"2"}>
-        <ChevronLeftIcon boxSize={5} />
-      </PaginationPrevious>
+}: PaginationComponentProps) => {
+  const searchParams = useSearchParams();
 
-      <PaginationPageGroup>
-        {pages.map((page) => (
-          <PaginationPage
-            w={7}
-            mr={"1"}
-            fontSize="sm"
-            width={"7"}
-            key={`pagination_page_${page}`}
-            page={page}
-            _current={{
-              bg: "gray.400",
-            }}
-          />
-        ))}
-      </PaginationPageGroup>
+  const paginationPreviousQuery = createQueryString(
+    searchParams,
+    "page",
+    `${currentPage - 1}`
+  );
+  const paginationNextQuery = createQueryString(
+    searchParams,
+    "page",
+    `${currentPage + 1}`
+  );
 
-      <PaginationNext colorScheme="teal">
-        <ChevronRightIcon boxSize={5} />
-      </PaginationNext>
-    </PaginationContainer>
-  </Pagination>
-);
+  return (
+    <Pagination
+      pagesCount={pagesCount}
+      currentPage={currentPage}
+      onPageChange={setCurrentPage}
+    >
+      <PaginationContainer>
+        <Link href={`?` + paginationPreviousQuery} shallow>
+          <PaginationPrevious colorScheme="teal" mr={"2"}>
+            <ChevronLeftIcon boxSize={5} />
+          </PaginationPrevious>
+        </Link>
+
+        <PaginationPageGroup>
+          {pages.map((page) => {
+            const query = createQueryString(
+              searchParams,
+              "page",
+              `${calculateTargetPageForDots(page, currentPage)}`
+            );
+
+            return (
+              <Link href={`?` + query} key={`pagination_page_${page}`} shallow>
+                <PaginationPage
+                  w={7}
+                  mr={"1"}
+                  fontSize="sm"
+                  page={page}
+                  _current={{
+                    bg: "gray.400",
+                  }}
+                />
+              </Link>
+            );
+          })}
+        </PaginationPageGroup>
+
+        <Link href={`?` + paginationNextQuery} shallow>
+          <PaginationNext colorScheme="teal">
+            <ChevronRightIcon boxSize={5} />
+          </PaginationNext>
+        </Link>
+      </PaginationContainer>
+    </Pagination>
+  );
+};
 
 export default PaginationComponent;
